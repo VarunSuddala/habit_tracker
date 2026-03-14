@@ -1,4 +1,4 @@
-# 🟣 Antigravite — Habit Tracking App
+# 🟣 Habit Tracking App
 
 > **Build healthy habits with us.**
 > A beautifully designed daily habit tracker that keeps you on track, streak-motivated, and progress-aware.
