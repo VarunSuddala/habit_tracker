@@ -17,10 +17,10 @@ const AppShell = ({ children, className = '', showSidebar = true }) => {
           <div className="hidden lg:flex lg:flex-1 items-center justify-center p-12">
             <div className="max-w-md text-center space-y-6">
               <div className="w-20 h-20 bg-primary-purple rounded-3xl flex items-center justify-center mx-auto shadow-lg shadow-primary-purple/30">
-                <span className="text-3xl font-black text-white tracking-tight">A</span>
+                <span className="text-3xl font-black text-white tracking-tight">H</span>
               </div>
               <h1 className="text-5xl font-black text-text-dark tracking-tight leading-tight">
-                Antigravite
+                Habit Tracker
               </h1>
               <p className="text-lg text-text-muted leading-relaxed">
                 Build healthy habits, one day at a time. Track your progress, maintain streaks, and unlock your best self.

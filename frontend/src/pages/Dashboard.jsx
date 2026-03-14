@@ -4,6 +4,7 @@ import AppShell from '../layout/MobileContainer';
 import DateStrip from '../components/DateStrip';
 import HabitCard from '../components/HabitCard';
 import BottomNav from '../components/BottomNav';
+import CreateHabitModal from '../components/CreateHabitModal';
 import { useAuth } from '../context/AuthContext';
 import { logsAPI } from '../services/api';
 
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(() => {
     return new Date().toISOString().split('T')[0];
   });
@@ -53,14 +55,12 @@ const Dashboard = () => {
 
   const toggleHabit = async (habitId, currentState) => {
     try {
-      // Optimistic update
       setHabits((prev) =>
         prev.map((h) => (h.habitId === habitId ? { ...h, completed: !currentState } : h))
       );
       await logsAPI.create(habitId, selectedDate, !currentState);
     } catch (err) {
       console.error('Failed to toggle habit:', err);
-      // Revert
       setHabits((prev) =>
         prev.map((h) => (h.habitId === habitId ? { ...h, completed: currentState } : h))
       );
@@ -113,14 +113,14 @@ const Dashboard = () => {
         {/* Habit Grid */}
         <div className="px-6 grid grid-cols-2 lg:grid-cols-3 gap-4 flex-1 content-start">
           {loading ? (
-            // Skeleton cards
             Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="bg-gray-200 animate-pulse rounded-3xl h-[140px]" />
             ))
           ) : habits.length === 0 ? (
             <div className="col-span-2 lg:col-span-3 text-center py-16 text-text-muted">
+              <p className="text-4xl mb-4">🌱</p>
               <p className="text-lg font-medium">No habits yet</p>
-              <p className="text-sm mt-2">Tap + to create your first habit!</p>
+              <p className="text-sm mt-2">Tap the + button to create your first habit!</p>
             </div>
           ) : (
             habits.map((habit) => (
@@ -141,7 +141,13 @@ const Dashboard = () => {
 
       </div>
 
-      <BottomNav />
+      <BottomNav onAddClick={() => setShowCreateModal(true)} />
+
+      <CreateHabitModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onCreated={fetchLogs}
+      />
     </AppShell>
   );
 };

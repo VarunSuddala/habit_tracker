@@ -1,14 +1,17 @@
 import React from 'react';
 import { Home, Plus } from 'lucide-react';
 
-const BottomNav = () => {
+const BottomNav = ({ onAddClick }) => {
   return (
     <div className="absolute bottom-0 w-full px-6 pb-8 pt-4 bg-gradient-to-t from-white via-white/90 to-transparent flex justify-between items-center z-10">
       <button className="p-2 text-text-dark hover:text-primary-purple transition-colors">
         <Home size={28} />
       </button>
       
-      <button className="w-14 h-14 bg-primary-purple text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-primary-purple/90 transition-transform active:scale-95">
+      <button
+        onClick={onAddClick}
+        className="w-14 h-14 bg-primary-purple text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-primary-purple/90 transition-transform active:scale-95"
+      >
         <Plus size={32} />
       </button>
 

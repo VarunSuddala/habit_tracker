@@ -34,20 +34,6 @@ const Onboarding = () => {
     }
   };
 
-  // Quick demo login
-  const handleDemoLogin = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await login('demo@antigravite.com', 'password123');
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <AppShell className="!bg-primary-purple" showSidebar={false}>
       <div className="flex flex-col min-h-full justify-between p-8 lg:p-12 relative z-10">
@@ -60,7 +46,7 @@ const Onboarding = () => {
             habits with us
           </h1>
           <p className="text-white/60 mt-4 text-base lg:text-lg max-w-md mx-auto">
-            Track your daily routines, maintain streaks, and unlock your best self with Antigravite.
+            Track your daily routines, maintain streaks, and unlock your best self.
           </p>
         </div>
 
@@ -130,30 +116,12 @@ const Onboarding = () => {
 
         {/* Actions Area */}
         <div className="flex flex-col space-y-3 max-w-sm mx-auto w-full">
-          {!showForm ? (
-            <>
-              <button
-                onClick={() => setShowForm(true)}
-                className="w-full py-4 bg-white text-text-dark text-center rounded-2xl font-bold text-xl shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all active:scale-[0.98]"
-              >
-                Get started
-              </button>
-              <button
-                onClick={handleDemoLogin}
-                disabled={loading}
-                className="w-full py-3 bg-white/10 border border-white/20 text-white text-center rounded-2xl font-semibold hover:bg-white/20 transition-all disabled:opacity-60"
-              >
-                {loading ? 'Logging in...' : '🚀 Try demo account'}
-              </button>
-            </>
-          ) : (
+          {!showForm && (
             <button
-              type="button"
-              onClick={handleDemoLogin}
-              disabled={loading}
-              className="w-full py-3 bg-white/10 border border-white/20 text-white text-center rounded-2xl font-semibold hover:bg-white/20 transition-all disabled:opacity-60"
+              onClick={() => setShowForm(true)}
+              className="w-full py-4 bg-white text-text-dark text-center rounded-2xl font-bold text-xl shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all active:scale-[0.98]"
             >
-              {loading ? 'Logging in...' : '🚀 Try demo account'}
+              Get started
             </button>
           )}
 
