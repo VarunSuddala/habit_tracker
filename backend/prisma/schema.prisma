@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(255)
+  password  String
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  habits    Habit[]
+  habitLogs HabitLog[]
+
+  @@map("users")
+}
+
+model Habit {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  title       String   @db.VarChar(100)
+  description String?
+  color       String?  @db.VarChar(7)
+  icon        String?  @db.VarChar(50)
+  frequency   String?  @db.VarChar(20) // 'daily', 'weekly', 'custom'
+  category    String?  @db.VarChar(50)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habitLogs HabitLog[]
+  streak    Streak?
+
+  @@map("habits")
+}
+
+model HabitLog {
+  id         String   @id @default(uuid())
+  habitId    String   @map("habit_id")
+  userId     String   @map("user_id")
+  loggedDate DateTime @map("logged_date") @db.Date
+  completed  Boolean  @default(false)
+  durationS  Int?     @map("duration_s")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([habitId, loggedDate])
+  @@map("habit_logs")
+}
+
+model Streak {
+  id             String   @id @default(uuid())
+  habitId        String   @unique @map("habit_id")
+  currentStreak  Int      @default(0) @map("current_streak")
+  longestStreak  Int      @default(0) @map("longest_streak")
+  lastCompleted  DateTime? @map("last_completed") @db.Date
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  @@map("streaks")
+}
