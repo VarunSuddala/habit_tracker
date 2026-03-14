@@ -14,7 +14,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Global Middleware ──────────────────────────────────────
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://habit-tracker-1w1gqm13h-varuns-projects-fc327bab.vercel.app',
+    /\.vercel\.app$/,
+  ],
+  credentials: true,
+}));
 app.use(express.json());
 
 // ─── Health Check ───────────────────────────────────────────
